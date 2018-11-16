@@ -67,3 +67,37 @@ print(motorcycles)
 print('\nA '+mds+' was died')
 
 
+# 3.3 用sort对列表进行永久性排序
+
+cars = ['bmw','audi','toyota','subaru','dazhong','hongqi','qq','tosala','auto','sasx']
+cars.sort()
+print(cars)
+
+# 反向排序
+cars.sort()
+print(cars)
+cars.sort(reverse=True)
+print(cars)
+
+# 3.3.2 使用函数sorted() 对列表进行临时排序
+
+print("这是排序以前：")
+print(cars)
+
+print("这是排序后：")
+print(sorted(cars))
+
+print("这是排序后的还原：")
+print(cars)
+
+
+# 3.3.3倒着打表
+
+
+print('\n')
+print(cars)
+cars.reverse()
+print(cars)
+
+# 3.3.4 列表长度
+print(len(cars))
