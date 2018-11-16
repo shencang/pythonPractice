@@ -34,4 +34,4 @@ sa2    = input(int)
 
 print(float(float(float1)**int(sa1))+float(float(float2)**int(sa2)))
 
-# 和java不太一样啊。
+# 和java不太一样。
