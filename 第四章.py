@@ -42,3 +42,21 @@ digits = [1,2,3,4,5,6,7,8,9,0]
 print(min(digits))
 print(max(digits))
 print(sum(digits))
+
+
+# 4.3.4 列表解析
+squaress =[valuess**2 for valuess in range(0,12)]
+print(squaress)
+
+
+# 4.4.1 切片
+players = [1,2,3,4,5]
+print(players[1:3])
+print(players[:3])
+print(players[1:])
+# [:] 可以用来复制的列表
+# 但是直接列表赋值是地址传值
+
+# 元组
+sd =(100,20)
+print()
