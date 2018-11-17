@@ -23,3 +23,16 @@ elif age<18:
     print("you can")
 else:
     print("emmmmm")
+
+
+
+def display(output, flag):
+    print(flag == 'true_value'or 'tv')
+    print(flag == 'estimated_value'or 'ev')
+    if flag == 'true_value'or flag == 'tv':
+        print("零点的准确坐标为：" + str(output))
+
+    if flag == 'estimated_value'or flag == 'ev':
+        print("零点的估计坐标为：" + str(output))
+
+display(1, 'ev')
