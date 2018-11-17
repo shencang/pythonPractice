@@ -1,7 +1,6 @@
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-import time
 
 
 def function_composition(x):
@@ -40,16 +39,45 @@ def bisection_method(a, b, acc):
                         tag = False
                         break
                     else:
-                        if function_composition(a)*function_composition(mid)>0:
+                        if function_composition(a)*function_composition(mid) > 0:
                             a = mid
                         else:
                             b = mid
-    print("Bisection method")
+    print("Bisection method 二分法结束。")
 
 
-def false_position(a,b,acc):
+def false_position(a, b, acc):
     """试位法"""
-    print("False Position")
+    tag = True
+    while tag:
+        if function_composition(a) * function_composition(b) > 0:
+            print("该区间内无解。")
+        else:
+            while tag:
+                if function_composition(a) * function_composition(b) == 0.0:
+                    if function_composition(a) == 0.0:
+                        display(a, 'tv')
+                        tag = False
+                    else:
+                        display(b, 'tv')
+                        tag = False
+                    break
+                else:
+                    # 直接写一个表达式太长，不符合规范
+                    fa = float(function_composition(a))
+                    fb = float(function_composition(b))
+                    intersection = float((fb*a+fa*b)/(fa+fb))
+                    if abs(function_composition(intersection)) < acc:
+                        display(intersection, 'ev')
+                        tag = False
+                        break
+                    else:
+                        if function_composition(a)*function_composition(intersection) > 0:
+                            a = intersection
+                        else:
+                            b = intersection
+
+    print("False Position 适位法结束。")
 
 
 def input_limit():
@@ -63,7 +91,7 @@ def input_limit():
 
 def main():
     """驱动与选择"""
-    choose = int(input("请输入执行二分法还适位法，1选择二分法 2选择试位法,0退出"+'\n 输入：'))
+    choose = int(input("请输入执行二分法还是适位法，1选择二分法 2选择试位法,0退出"+'\n 输入：'))
     if int(choose)==1:
         print("二分法")
         limit=input_limit()
@@ -77,9 +105,10 @@ def main():
 
 
 
-
+# 这样不安全，仅在此处使用
 while(True):
     # 开始的入口
     main()
+
 
 
