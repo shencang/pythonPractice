@@ -14,3 +14,31 @@ for magician in magicians:
     print("I can't wait to see your next trick ,"+magician.title()+'.\n')
     print("--------")
 print("=======================")
+
+# 4.2 主要是试错，就不复现了
+
+# 4.3 创建数值列表
+
+for value in range(0,10):
+    print(value)
+
+number = list(range(0,10))
+print(number)
+
+even_number = list(range(2,11,1))
+print(even_number)
+
+# 乘方符号
+squares =[]
+for values in range(0,10):
+    square=values**2
+    squares.append(square)
+
+print(squares)
+
+# 4.3.3 对数字列表执行简单的统计计算
+
+digits = [1,2,3,4,5,6,7,8,9,0]
+print(min(digits))
+print(max(digits))
+print(sum(digits))
