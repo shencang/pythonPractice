@@ -1,47 +1,84 @@
-# from matplotlib import pyplot as plot
-import numpy
 import matplotlib.pyplot as plt
-from matplotlib import animation  #动画包
+import numpy as np
 
-print("题目：用定点迭代法求x^3-x-1=0在x=1.5附近的一个根")
-i = 0
-def result(x):
-    y = (x+1)**(1/3)
-    return y
 
-def Y(x):
-    global i #global关键字全局变量修改必须声明
-    i = i+1
-   # updata(x)
-    plt.plot([x, x], [0, result(x)])
-    plt.plot([x,result(x)],[result(x),result(x)])# 1.5,result(1.5)   1.5,1.5
-    if((x-result(x))<0.000001):
-        print('逐次逼近第', i, '后求得：')
-        print('函数在x=1.5附近的一个根为',round(x,5))# 输出字符方式
+# 要求根的函数 ：目标是 f（x）=x^3-2x-3
+def function_composition(x):
+    """函数表示和结果求值"""
+    fc = (2 * x + 3)**(1/3)
+    return fc
+
+
+def iterations_number(nums):
+    print('逐次逼近第', nums, '后求得：')
+
+
+def display(output, flag):
+    """打印测试结果"""
+    if flag == 'estimated_value'or flag == 'ev':
+        print('函数在x='+str(num)+'附近的一个根为'+str(round(output, 10)))
+
+    if flag == 'unsolvable ' or flag == 'un':
+        print("以该点递归无法获得根。")
+
+
+def simple_fixed_point(x, acc):
+    """简单定点迭代法"""
+    global num
+    num = num + 1
+    fx = function_composition(x)
+    lists.append(fx)
+    draw_allways([[x, x], [0, fx]], [[x, fx], [fx, fx]])
+    if num!= 1 and lists[0]<fx:
+        del lists[1]
+        display(0, 'un')
     else:
-        Y(result(x))
+        if (x-fx) < acc and function_composition(fx) < fx:
+            iterations_number(num)
+            display(x,'ev')
 
-Y(1.5)
+        else:
+            simple_fixed_point(function_composition(x), acc)
 
-x = 0
-# plt.plot([0,0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0],[0,0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0])
-plt.title("fixed point iteration method")
-x = numpy.linspace(1.3,1.6)
-y = numpy.linspace(1.3,1.6)
-plt.xlim(1.3,1.6)# 固定坐标
-plt.ylim(1.3,1.6)
-plt.plot(x,x)
-plt.plot(x,(x+1)**(1/3),"r-")
-plt.grid(True)# 设置网格线
-x = 1.5
-# plt.plot([x,x],[0,result(x)])
-##plt.vlines(0,1,result(1.5),linestyles = "dashed")
-# fig1 = plt.figure()# 建立子图
-# def updata(data):
-   # plt.plot([x, x], [0, result(x)])
-    #plt.plot([x, result(x)], [result(x), result(x)])  # 1.5,result(1.5)   1.5,1.5
-    #fig_points.set_data(data[:, 0:num])
-   # return line
-#fig_points, = plt.plot([], [])#'ro'是画点 不加是连线
-#anim = animation.FuncAnimation(fig1, updata)#结束条件
-plt.show()
+
+def input_limit():
+    """输入定点"""
+    a = float(input("请输入定点的值："))
+    acc = float(input("请输入误差限的值："))
+    result = [a, acc]
+    return result
+
+
+def main():
+    """主驱动"""
+    print("简单定点迭代法：f（x）=x^3-2x-3")
+    result = input_limit()
+    flag = result[0]
+    simple_fixed_point(result[0],result[1])
+
+
+def draw():
+    """绘制函数和寻找的路径"""
+    plt.title("fixed point iteration method")
+    x = np.linspace(0, 10)
+    y = np.linspace(0, 10)
+    plt.plot(x, x)
+    plt.plot(x, (2 * x + 3) ** (1 / 3), "r-")
+    plt.grid(True)  # 设置网格线
+    plt.show()
+
+
+def draw_allways(dot1,dot2):
+    plt.plot(dot1[0], dot1[1])
+    plt.plot(dot2[0], dot2[1])
+
+
+
+# 这样不安全，仅在此处为循环入口使用
+num = 0
+flag = 0
+lists = []
+main()
+draw()
+
+
