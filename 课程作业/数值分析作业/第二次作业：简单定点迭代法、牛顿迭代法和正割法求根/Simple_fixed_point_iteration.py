@@ -13,12 +13,12 @@ def iterations_number(nums):
     print('逐次逼近第', nums, '后求得：')
 
 
-def display(output, flag):
+def display(output, flags):
     """打印测试结果"""
-    if flag == 'estimated_value'or flag == 'ev':
-        print('函数在x='+str(num)+'附近的一个根为'+str(round(output, 10)))
+    if flags == 'estimated_value'or flags == 'ev':
+        print('函数的一个根为'+str(round(output, 10)))
 
-    if flag == 'unsolvable ' or flag == 'un':
+    if flags == 'unsolvable ' or flags == 'un':
         print("以该点递归无法获得根。")
 
 
@@ -69,12 +69,12 @@ def draw():
 
 
 def draw_allways(dot1,dot2):
+    """负责完成函数变换路径"""
     plt.plot(dot1[0], dot1[1])
     plt.plot(dot2[0], dot2[1])
 
 
-
-# 这样不安全，仅在此处为循环入口使用
+# 开始
 num = 0
 flag = 0
 lists = []
