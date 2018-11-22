@@ -2,6 +2,12 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
+# 简单定点迭代法使用递归来做出现了一部分问题。
+# 在牛顿法中，使用循环来完成。
+
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+
 
 # 要求根的函数 ：目标是 f（x）=x^3-2x-3
 def function_composition(x):
@@ -10,8 +16,9 @@ def function_composition(x):
     return fc
 
 
+# 要求根的导数 ：3x^2-2
 def derivative_solution(x):
-    """结果结果求值"""
+    """导数结果求值"""
     ds = 3 * pow(x, 2) - 2
     return ds
 
@@ -32,17 +39,28 @@ def display(output, flags):
 def newton_raphson_method(x, acc):
     """牛顿迭代法"""
     global num
-    num = num + 1
-    fx = function_composition(x)
-    dfx = derivative_solution(x)
-    nex = x-(fx/dfx)
-    draw_allways([[x, x], [0, fx]], [[x, fx], [fx, fx]])
-
-    if (fx-nex) < acc:
-        iterations_number(num)
-        display(x, 'ev')
-    else:
-        newton_raphson_method(nex, acc)
+    tag = True
+    # 每次开始的x的值
+    lists_save_x = []
+    # 每次迭代之后的新值即，x+1
+    lists_savex_new = []
+    # 该点的函数计算值
+    lists_fc = []
+    while tag:
+        xi = x
+        xii = xi - function_composition(xi) / derivative_solution(xi)
+        lists_save_x.append(xi)
+        lists_fc.append(function_composition(xi))
+        # 误差限度：新-旧/新
+        if (abs(xii - xi) / xii) < acc:
+            iterations_number(num)
+            display(xi , 'ev')
+            tag = False
+        else:
+            x = xii
+            lists_savex_new.append(xii)
+            num = num + 1
+    draw(lists_save_x, lists_savex_new, lists_fc)
 
 
 def input_limit():
@@ -61,28 +79,27 @@ def main():
     newton_raphson_method(result[0],result[1])
 
 
-def draw():
-    """绘制函数和寻找的路径"""
-    plt.title("fixed point iteration method")
-    x = np.linspace(0, 10)
-    y = np.linspace(0, 10)
-    plt.plot(x, x)
-    plt.plot(x, (2 * x + 3) ** (1 / 3), "r-")
-    plt.grid(True)  # 设置网格线
+def draw(lists_x,lists_new,lists_fc):
+    """绘制函数和寻找过程的路径"""
+    plt.title("Newton_Raphson_method")
+    x = np.arange(0, max(lists_x), 0.01)
+    y = np.power(x, 3) - 2 * x - 3
+    plt.plot(x, y)
+    plt.axis([0, max(lists_x), 0, max(lists_fc)])
+    for i in range(len(lists_x)):
+        plt.scatter(lists_x[i], 0, c='r')
+    for i in range(len(lists_new)):
+        plt.plot([lists_x[i], lists_new[i]], [lists_fc[i], 0], c='r')
+
+    plt.plot([-3, 10], [0, 0])
+    plt.grid(True) # 设置网格线
     plt.show()
-
-
-def draw_allways(dot1,dot2):
-    """负责完成函数变换路径"""
-    plt.plot(dot1[0], dot1[1])
-    plt.plot(dot2[0], dot2[1])
 
 
 # 开始
 num = 0
 flag = 0
-lists = []
 main()
-draw()
+# draw()
 
 

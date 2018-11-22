@@ -29,16 +29,35 @@ def simple_fixed_point(x, acc):
     fx = function_composition(x)
     lists.append(fx)
     draw_allways([[x, x], [0, fx]], [[x, fx], [fx, fx]])
-    if num!= 1 and lists[0]<fx:
+    if num != 1 and lists[0] < fx:
         del lists[1]
         display(0, 'un')
     else:
         if (x-fx) < acc and function_composition(fx) < fx:
             iterations_number(num)
-            display(x,'ev')
+            display(x, 'ev')
 
         else:
             simple_fixed_point(function_composition(x), acc)
+
+
+def simple_fixed_point_reverse(x, acc):
+    """简单定点迭代法"""
+    global num
+    num = num + 1
+    fx = function_composition(x)
+    lists.append(fx)
+    draw_allways([[x, x], [0, fx]], [[x, fx], [fx, fx]])
+    if num != 1 and lists[0] < fx:
+        del lists[1]
+        display(0, 'un')
+    else:
+        if (x-fx) < acc and function_composition(fx) < fx:
+            iterations_number(num)
+            display(x, 'ev')
+
+        else:
+            simple_fixed_point_reverse(function_composition(x), acc)
 
 
 def input_limit():
