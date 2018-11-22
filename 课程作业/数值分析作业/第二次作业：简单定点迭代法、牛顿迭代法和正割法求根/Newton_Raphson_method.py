@@ -1,11 +1,9 @@
-import math
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib import animation
 
 # 简单定点迭代法使用递归来做出现了一部分问题。
 # 在牛顿法中，使用循环来完成。
-
-plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
 
@@ -29,8 +27,8 @@ def iterations_number(nums):
 
 def display(output, flags):
     """打印测试结果"""
-    if flags == 'estimated_value'or flags == 'ev':
-        print('函数的一个根为'+str(round(output, 10)))
+    if flags == 'estimated_value' or flags == 'ev':
+        print('函数的一个根为' + str(round(output, 10)))
 
     if flags == 'unsolvable ' or flags == 'un':
         print("以该点递归无法获得根。")
@@ -54,7 +52,7 @@ def newton_raphson_method(x, acc):
         # 误差限度：新-旧/新
         if (abs(xii - xi) / xii) < acc:
             iterations_number(num)
-            display(xi , 'ev')
+            display(xi, 'ev')
             tag = False
         else:
             x = xii
@@ -76,10 +74,10 @@ def main():
     print("牛顿迭代法：f（x）=x^3-2x-3")
     result = input_limit()
     flag = result[0]
-    newton_raphson_method(result[0],result[1])
+    newton_raphson_method(result[0], result[1])
 
 
-def draw(lists_x,lists_new,lists_fc):
+def draw(lists_x, lists_new, lists_fc):
     """绘制函数和寻找过程的路径"""
     plt.title("Newton_Raphson_method")
     x = np.arange(0, max(lists_x), 0.01)
@@ -92,7 +90,8 @@ def draw(lists_x,lists_new,lists_fc):
         plt.plot([lists_x[i], lists_new[i]], [lists_fc[i], 0], c='r')
 
     plt.plot([-3, 10], [0, 0])
-    plt.grid(True) # 设置网格线
+    # 设置网格线
+    plt.grid(True)
     plt.show()
 
 
