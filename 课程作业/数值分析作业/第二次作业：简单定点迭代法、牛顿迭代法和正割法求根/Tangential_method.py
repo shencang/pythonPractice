@@ -1,9 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib import animation
 
 # 简单定点迭代法使用递归来做出现了一部分问题。
-# 在牛顿法中，使用循环来完成。
+# 在正割（弦截）法中，使用循环来完成。
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
 
@@ -34,8 +33,8 @@ def display(output, flags):
         print("以该点递归无法获得根。")
 
 
-def newton_raphson_method(x, acc):
-    """牛顿迭代法"""
+def tangential_method(x, acc):
+    """正割（弦截）法"""
     global num
     tag = True
     # 每次开始的x的值
@@ -71,15 +70,15 @@ def input_limit():
 
 def main():
     """主驱动"""
-    print("牛顿迭代法：f（x）=x^3-2x-3")
+    print("正割（弦截）法：f（x）=x^3-2x-3（根在1.8-2.0左右，唯一。）")
     result = input_limit()
     flag = result[0]
-    newton_raphson_method(result[0], result[1])
+    tangential_method(result[0], result[1])
 
 
 def draw(lists_x, lists_new, lists_fc):
     """绘制函数和寻找过程的路径"""
-    plt.title("Newton_Raphson_method")
+    plt.title("tangential_method")
     x = np.arange(0, max(lists_x), 0.01)
     y = np.power(x, 3) - 2 * x - 3
     plt.plot(x, y)
@@ -89,7 +88,6 @@ def draw(lists_x, lists_new, lists_fc):
     for i in range(len(lists_new)):
         plt.plot([lists_x[i], lists_new[i]], [lists_fc[i], 0], c='r')
 
-    plt.plot([-3, 10], [0, 0])
     # 设置网格线
     plt.grid(True)
     plt.show()

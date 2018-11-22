@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
-
+# 存在的一些问题，使用递归完成了对单方向的简单定点求根。
+# 比如该方法中我使用的函数f（x）=x^3-2x-3的根位于1.8-2.0之间，在迭代为收敛的情况下，
+# 可以得出正确值，在发散的前提下只能顺利跳出，而不能扭转。
 
 # 要求根的函数 ：目标是 f（x）=x^3-2x-3
 def function_composition(x):
@@ -70,7 +72,7 @@ def input_limit():
 
 def main():
     """主驱动"""
-    print("简单定点迭代法：f（x）=x^3-2x-3")
+    print("简单定点迭代法：f（x）=x^3-2x-3（根在1.8-2.0左右，唯一。）")
     result = input_limit()
     flag = result[0]
     simple_fixed_point(result[0],result[1])

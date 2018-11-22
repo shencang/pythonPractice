@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib import animation
 
 # 简单定点迭代法使用递归来做出现了一部分问题。
 # 在牛顿法中，使用循环来完成。
@@ -71,7 +70,7 @@ def input_limit():
 
 def main():
     """主驱动"""
-    print("牛顿迭代法：f（x）=x^3-2x-3")
+    print("牛顿迭代法：f（x）=x^3-2x-3（根在1.8-2.0左右，唯一。）")
     result = input_limit()
     flag = result[0]
     newton_raphson_method(result[0], result[1])
@@ -89,7 +88,6 @@ def draw(lists_x, lists_new, lists_fc):
     for i in range(len(lists_new)):
         plt.plot([lists_x[i], lists_new[i]], [lists_fc[i], 0], c='r')
 
-    plt.plot([-3, 10], [0, 0])
     # 设置网格线
     plt.grid(True)
     plt.show()
