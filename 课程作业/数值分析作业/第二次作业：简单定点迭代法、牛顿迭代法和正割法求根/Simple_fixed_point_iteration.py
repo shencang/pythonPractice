@@ -4,10 +4,17 @@ import numpy as np
 # 比如该方法中我使用的函数f（x）=x^3-2x-3的根位于1.8-2.0之间，在迭代为收敛的情况下，
 # 可以得出正确值，在发散的前提下只能顺利跳出，而不能扭转。
 
+
 # 要求根的函数 ：目标是 f（x）=x^3-2x-3
 def function_composition(x):
     """函数表示和结果求值"""
     fc = (2 * x + 3)**(1/3)
+    return fc
+
+# 待定注意
+def function_composition_reverse(x):
+    """函数表示和结果求值"""
+    fc = (x**3 - 3)/2
     return fc
 
 
@@ -34,32 +41,36 @@ def simple_fixed_point(x, acc):
     if num != 1 and lists[0] < fx:
         del lists[1]
         display(0, 'un')
+        # 待定注意
+        simple_fixed_point_reverse(x, acc)
+
     else:
         if (x-fx) < acc and function_composition(fx) < fx:
             iterations_number(num)
             display(x, 'ev')
-
         else:
             simple_fixed_point(function_composition(x), acc)
 
 
+# 待定注意
 def simple_fixed_point_reverse(x, acc):
     """简单定点迭代法"""
     global num
     num = num + 1
-    fx = function_composition(x)
+    fx = function_composition_reverse(x)
+    print(fx)
     lists.append(fx)
     draw_allways([[x, x], [0, fx]], [[x, fx], [fx, fx]])
     if num != 1 and lists[0] < fx:
         del lists[1]
         display(0, 'un')
     else:
-        if (x-fx) < acc and function_composition(fx) < fx:
+        if (x-fx) < acc and function_composition_reverse(fx) < fx:
             iterations_number(num)
             display(x, 'ev')
 
         else:
-            simple_fixed_point_reverse(function_composition(x), acc)
+            simple_fixed_point_reverse(function_composition_reverse(x), acc)
 
 
 def input_limit():
