@@ -33,7 +33,7 @@ def display(output, flags):
         print("以该点递归无法获得根。")
 
 
-def tangential_method(x, acc):
+def tangential_method(x,x_old, acc):
     """正割（弦截）法"""
     global num
     tag = True
@@ -45,7 +45,9 @@ def tangential_method(x, acc):
     lists_fc = []
     while tag:
         xi = x
-        xii = xi - function_composition(xi) / derivative_solution(xi)
+        fxi = function_composition(xi)
+        fx_old = function_composition(x_old)
+        xii = xi - ((fxi*(x_old-xi)) / (fx_old-fxi))
         lists_save_x.append(xi)
         lists_fc.append(function_composition(xi))
         # 误差限度：新-旧/新
@@ -62,9 +64,10 @@ def tangential_method(x, acc):
 
 def input_limit():
     """输入定点"""
-    a = float(input("请输入定点的值："))
+    a = float(input("请输入定点a的值："))
+    b = float(input("请输入定点b的值："))
     acc = float(input("请输入误差限的值："))
-    result = [a, acc]
+    result = [a, b, acc]
     return result
 
 
@@ -73,7 +76,7 @@ def main():
     print("正割（弦截）法：f（x）=x^3-2x-3（根在1.8-2.0左右，唯一。）")
     result = input_limit()
     flag = result[0]
-    tangential_method(result[0], result[1])
+    tangential_method(result[0], result[1], result[2])
 
 
 def draw(lists_x, lists_new, lists_fc):
