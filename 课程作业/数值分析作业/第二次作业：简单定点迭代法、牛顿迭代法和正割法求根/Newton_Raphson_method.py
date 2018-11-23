@@ -83,11 +83,12 @@ def draw(lists_x, lists_new, lists_fc):
     y = np.power(x, 3) - 2 * x - 3
     plt.plot(x, y)
     plt.axis([0, max(lists_x), 0, max(lists_fc)])
+    plt.plot([lists_x[0],lists_x[0]],[[lists_x[0]],[lists_fc[0]]])
     for i in range(len(lists_x)):
         plt.scatter(lists_x[i], 0, c='r')
     for i in range(len(lists_new)):
-        plt.plot([lists_x[i], lists_new[i]], [lists_fc[i], 0], c='r')
-
+        plt.plot([lists_x[i], lists_new[i],lists_new[i]], [lists_fc[i], 0,lists_fc[i+1]], c='r')
+      #  plt.plot([])
     # 设置网格线
     plt.grid(True)
     plt.show()

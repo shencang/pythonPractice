@@ -3,18 +3,13 @@ import numpy as np
 # 存在的一些问题，使用递归完成了对单方向的简单定点求根。
 # 比如该方法中我使用的函数f（x）=x^3-2x-3的根位于1.8-2.0之间，在迭代为收敛的情况下，
 # 可以得出正确值，在发散的前提下只能顺利跳出，而不能扭转。
+# 我试图通过一种比较蛮力的方式实现近似扭转，详情见代码注释。
 
 
 # 要求根的函数 ：目标是 f（x）=x^3-2x-3
 def function_composition(x):
     """函数表示和结果求值"""
     fc = (2 * x + 3)**(1/3)
-    return fc
-
-# 待定注意
-def function_composition_reverse(x):
-    """函数表示和结果求值"""
-    fc = (x**3 - 3)/2
     return fc
 
 
@@ -28,7 +23,7 @@ def display(output, flags):
         print('函数的一个根为'+str(round(output, 10)))
 
     if flags == 'unsolvable ' or flags == 'un':
-        print("以该点递归无法获得根。")
+        print("以该点迭代结果发散，无法获得根。")
 
 
 def simple_fixed_point(x, acc):
@@ -37,40 +32,24 @@ def simple_fixed_point(x, acc):
     num = num + 1
     fx = function_composition(x)
     lists.append(fx)
-    draw_allways([[x, x], [0, fx]], [[x, fx], [fx, fx]])
+    draw_allways([[x, x], [x, fx]], [[x, fx], [fx, fx]])
     if num != 1 and lists[0] < fx:
-        del lists[1]
+        del lists[0]
         display(0, 'un')
-        # 待定注意
-        simple_fixed_point_reverse(x, acc)
-
+        # ----------一种特别的解决方式，即如果不在能收敛的区间，就每次让他的
+        # 绝对值扩大两倍，来使得迭代方向间接发生改变
+        x = abs(2*x)
+        print("改变原值"+str(x/2)+"为绝对值的两倍，即为："+str(x))
+        num = 0
+        simple_fixed_point(x, acc)
+        # 这种方法可以在不影响不改变原先的收敛区域的情况下，用一部分效率换取更多求根区间。
+        # ---------------------删除划线区域就可接触该操作。
     else:
         if (x-fx) < acc and function_composition(fx) < fx:
             iterations_number(num)
             display(x, 'ev')
         else:
             simple_fixed_point(function_composition(x), acc)
-
-
-# 待定注意
-def simple_fixed_point_reverse(x, acc):
-    """简单定点迭代法"""
-    global num
-    num = num + 1
-    fx = function_composition_reverse(x)
-    print(fx)
-    lists.append(fx)
-    draw_allways([[x, x], [0, fx]], [[x, fx], [fx, fx]])
-    if num != 1 and lists[0] < fx:
-        del lists[1]
-        display(0, 'un')
-    else:
-        if (x-fx) < acc and function_composition_reverse(fx) < fx:
-            iterations_number(num)
-            display(x, 'ev')
-
-        else:
-            simple_fixed_point_reverse(function_composition_reverse(x), acc)
 
 
 def input_limit():

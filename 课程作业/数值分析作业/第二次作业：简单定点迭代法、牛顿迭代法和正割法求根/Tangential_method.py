@@ -43,8 +43,15 @@ def tangential_method(x,x_old, acc):
     lists_savex_new = []
     # 该点的函数计算值
     lists_fc = []
+
+    lists_save_x.append(x_old)
+    lists_fc.append(function_composition(x_old))
+    # lists_save_x.append(x)
+    # lists_fc.append(function_composition(x))
     while tag:
         xi = x
+        if num != 0:
+            x_old = lists_save_x[-1]
         fxi = function_composition(xi)
         fx_old = function_composition(x_old)
         xii = xi - ((fxi*(x_old-xi)) / (fx_old-fxi))
@@ -82,15 +89,16 @@ def main():
 def draw(lists_x, lists_new, lists_fc):
     """绘制函数和寻找过程的路径"""
     plt.title("tangential_method")
+    plt.plot([lists_x[1],lists_x[1]],[0,function_composition(lists_x[1])],c='r')
     x = np.arange(0, max(lists_x), 0.01)
     y = np.power(x, 3) - 2 * x - 3
     plt.plot(x, y)
     plt.axis([0, max(lists_x), 0, max(lists_fc)])
+    plt.plot([lists_x[0], lists_x[0]], [[lists_x[0]], [lists_fc[0]]])
     for i in range(len(lists_x)):
         plt.scatter(lists_x[i], 0, c='r')
     for i in range(len(lists_new)):
-        plt.plot([lists_x[i], lists_new[i]], [lists_fc[i], 0], c='r')
-
+        plt.plot([lists_x[i], lists_new[i], lists_new[i]], [lists_fc[i], 0, lists_fc[i+2]], c='r')
     # 设置网格线
     plt.grid(True)
     plt.show()
