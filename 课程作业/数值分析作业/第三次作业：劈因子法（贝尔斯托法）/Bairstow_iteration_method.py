@@ -79,7 +79,7 @@ def result_c(r, s):
 
 
 # 题设题解的下标
-w = 0
+lessons = 0
 # 存放答案的下标
 root = 0
 # 标记迭代次数
@@ -90,7 +90,7 @@ n_less = [3, 1]
 
 def result_bairstow(r, s, acc):
     """贝尔斯托法求解"""
-    global n, w, root, count
+    global n, lessons, root, count
     count = count + 1
     result_b(r, s)
     result_c(r, s)
@@ -104,8 +104,8 @@ def result_bairstow(r, s, acc):
         save_x[root] = (r_s[2] - (r_s[2] ** 2 + 4 * r_s[3]) ** (1 / 2)) / 2  # 3
         display(root, 'ro')
         root = root + 1
-        n = n_less[w]  # n代表当前计算多项式项数
-        w = w + 1
+        n = n_less[lessons]  # n代表当前计算多项式项数
+        lessons = lessons + 1
         if n == 1:
             save_x[4] = round((-r_s[0]) / r_s[2], 0)  # 单项式求解
             display(4, 'ro')
