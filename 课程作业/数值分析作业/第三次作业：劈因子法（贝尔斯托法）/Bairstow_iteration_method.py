@@ -1,25 +1,22 @@
 import matplotlib.pyplot as plt
-import numpy as np
 
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
 
-# 要求根的函数 ：目标是 f（x）=x^3-2x-3
-def function_composition(x):
-    """函数结果求值"""
-    fc = pow(x, 3) - 2 * x - 3
-    return fc
+def error_analysis():
+    """误差分析"""
 
 
-# 要求根的导数 ：3x^2-2
-def derivative_solution(x):
-    """导数结果求值"""
-    ds = 3 * pow(x, 2) - 2
-    return ds
+def result_b(r, s):
+    """求b的值"""
 
 
-def iterations_number(nums):
-    print('逐次逼近第', nums, '后求得：')
+def result_c(r, s):
+    """求c的值"""
+
+
+def result_bairstow(r, s):
+    """贝尔斯托法求解"""
 
 
 def display(output, flags):
@@ -49,29 +46,17 @@ def main():
     save_coeff = [1.25, -3.875, 2.125, 2.75, -3.5, 1]
     save_b = ['b0', 'b1', 'b2', 'b3', 'b4', 'b5']
     save_c = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5']
+    # 存放rs和误差
     r_s = [result[0], result[1], 'r', 's']
     r_s_error_analysis = ['%r', '%s']
-    
+    coeff_num = len(save_coeff)
+    save_x = ['x0', 'x1', 'x2', 'x3', 'x4', 'x5']
 
-
+    result_bairstow(result[0], result[1])
 
 
 def draw(lists_x, lists_new, lists_fc):
     """绘制函数和寻找过程的路径"""
-    plt.title("tangential_method")
-    plt.plot([lists_x[1],lists_x[1]],[0,function_composition(lists_x[1])],c='r')
-    x = np.arange(0, max(lists_x), 0.01)
-    y = np.power(x, 3) - 2 * x - 3
-    plt.plot(x, y)
-    plt.axis([0, max(lists_x), 0, max(lists_fc)])
-    plt.plot([lists_x[0], lists_x[0]], [[lists_x[0]], [lists_fc[0]]])
-    for i in range(len(lists_x)):
-        plt.scatter(lists_x[i], 0, c='r')
-    for i in range(len(lists_new)):
-        plt.plot([lists_x[i], lists_new[i], lists_new[i]], [lists_fc[i], 0, lists_fc[i+2]], c='r')
-    # 设置网格线
-    plt.grid(True)
-    plt.show()
 
 
 # 开始
