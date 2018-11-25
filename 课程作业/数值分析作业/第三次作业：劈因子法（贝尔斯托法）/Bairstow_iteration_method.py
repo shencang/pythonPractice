@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
 
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
@@ -50,6 +49,9 @@ def main():
     save_coeff = [1.25, -3.875, 2.125, 2.75, -3.5, 1]
     save_b = ['b0', 'b1', 'b2', 'b3', 'b4', 'b5']
     save_c = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5']
+    r_s = [result[0], result[1], 'r', 's']
+    r_s_error_analysis = ['%r', '%s']
+    
 
 
 
