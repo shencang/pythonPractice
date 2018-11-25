@@ -3,8 +3,9 @@ import sys
 import matplotlib.pyplot as plt
 
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
-
 sys.setrecursionlimit(10000)
+
+
 def error_analysis():
     """误差分析"""
     r = (save_b[0] * save_c[3] - save_b[1] * save_c[2]) / (save_c[2] * save_c[2] - save_c[1] * save_c[3]) + r_s[0]
@@ -45,26 +46,28 @@ def result_c(r, s):
 # 题设题解的下标
 w = 0
 # 存放答案的下标
-j = 0
+root = 0
 # 标记迭代次数
 count = 0
 n_0 = [3, 1]
-def result_bairstow(r, s):
+
+
+def result_bairstow(r, s, acc):
     """贝尔斯托法求解"""
-    global n, w, j, count
+    global n, w, root, count
     count = count + 1
     result_b(r, s)
     result_c(r, s)
     error_analysis()
     error_analysis_for_rse()
-    if (abs(r_s_error_analysis[0]) < 0.01) | (abs(r_s_error_analysis[1]) < 0.01):  # 误差满足条件
+    if (abs(r_s_error_analysis[0]) < acc) | (abs(r_s_error_analysis[1]) < acc):  # 误差满足条件
         print('经过', count, '次迭代得')
-        save_x[j] = (r_s[2] + (r_s[2] ** 2 + 4 * r_s[3]) ** (1 / 2)) / 2  # 4
-        print('x', j, '=', save_x[j])
-        j = j + 1
-        save_x[j] = (r_s[2] - (r_s[2] ** 2 + 4 * r_s[3]) ** (1 / 2)) / 2  # 3
-        print('x', j, '=', save_x[j])
-        j = j + 1
+        save_x[root] = (r_s[2] + (r_s[2] ** 2 + 4 * r_s[3]) ** (1 / 2)) / 2  # 4
+        print('x', root, '=', save_x[root])
+        root = root + 1
+        save_x[root] = (r_s[2] - (r_s[2] ** 2 + 4 * r_s[3]) ** (1 / 2)) / 2  # 3
+        print('x', root, '=', save_x[root])
+        root = root + 1
         n = n_0[w]  # n代表当前计算多项式项数
         w = w + 1
         if n == 1:
@@ -81,9 +84,9 @@ def result_bairstow(r, s):
             save_coeff[3] = save_b[5]
             save_coeff[4] = 0
             save_coeff[5] = 0
-            result_bairstow(r_s[2], r_s[3])
+            result_bairstow(r_s[2], r_s[3], acc)
     else:  # 不满足近似条件
-        result_bairstow(r_s[2], r_s[3])  # 用修正的值继续迭代
+        result_bairstow(r_s[2], r_s[3], acc)  # 用修正的值继续迭代
 
 
 def display(output, flags):
@@ -108,8 +111,7 @@ def main():
     """主驱动"""
     print("贝尔斯托迭代法：f（x）=x^5-3.5*x^4+2.75*x^3+2.125*x^2-3.875*x+1.25")
 
-
-    result_bairstow(result[0], result[1])
+    result_bairstow(result[0], result[1], result[2])
 
 
 def draw(lists_x, lists_new, lists_fc):
