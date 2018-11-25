@@ -23,7 +23,7 @@
           2.1.2.1 Simple_fixed_point_iteration（简单定点迭代法）
           2.1.2.2 Newton_Raphson_method（牛顿迭代法）
           2.1.2.3 Tangential_method（正割法（弦截法））
-        2.1.3 劈因子法（贝尔斯托法）
+        2.1.3 劈因子法（贝尔斯托迭代法）
           （制作ing）
       
 #### 3 小型项目：包含使用python写的一些小的项目
