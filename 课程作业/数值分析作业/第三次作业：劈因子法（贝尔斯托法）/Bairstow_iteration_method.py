@@ -1,13 +1,16 @@
 import sys
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
 sys.setrecursionlimit(10000)
 
 
 def error_analysis():
     """误差分析"""
+    # 指定为float型会导致栈溢出
     r = (save_b[0] * save_c[3] - save_b[1] * save_c[2]) / (save_c[2] * save_c[2] - save_c[1] * save_c[3]) + r_s[0]
     s = (save_b[0] * save_c[2] - save_b[1] * save_c[1]) / (save_c[3] * save_c[1] - save_c[2] * save_c[2]) + r_s[1]
     r_s[2] = round(r, 4)
@@ -30,7 +33,6 @@ def result_b(r, s):
     while num != -1:
         save_b[num] = round(save_coeff[num] + r * save_b[num + 1] + s * save_b[num + 2], 5)
         num = num - 1
-
 
 
 def result_c(r, s):
@@ -114,8 +116,21 @@ def main():
     result_bairstow(result[0], result[1], result[2])
 
 
-def draw(lists_x, lists_new, lists_fc):
+def draw():
     """绘制函数和寻找过程的路径"""
+    plt.title('贝尔斯托迭代法图像（仅绘制实数根）')
+    plt.xlabel("x")
+    plt.ylabel("y")
+    x = np.linspace(-3, 3, 99)
+    # 绘制函数的图像
+    y = x ** 5 - 3.5 * x ** 4 + 2.75 * x ** 3 + 3.125 * x ** 2 - 3.875 * x + 1.25
+    plt.plot(x, y)
+    y2 = x * 0
+
+    plt.plot(x, y2, color='red', linewidth=1.0, linestyle='--')
+    for v in save_x:
+        plt.scatter(v, 0, c='r')  # 每次迭代的点
+    plt.show()
 
 
 # 开始
@@ -129,7 +144,6 @@ save_c = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5']
 r_s = [result[0], result[1], 'r', 's']
 r_s_error_analysis = ['%r', '%s']
 coeff_num = len(save_coeff)
-save_x = ['x0', 'x1', 'x2', 'x3', 'x4', 'x5']
+save_x = ['x0', 'x1', 'x2', 'x3', 'x4']
 main()
-
-
+draw()
