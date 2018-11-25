@@ -1,10 +1,24 @@
+import sys
+
 import matplotlib.pyplot as plt
 
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
-
+sys.setrecursionlimit(10000)
 def error_analysis():
     """误差分析"""
+    r = (save_b[0] * save_c[3] - save_b[1] * save_c[2]) / (save_c[2] * save_c[2] - save_c[1] * save_c[3]) + r_s[0]
+    s = (save_b[0] * save_c[2] - save_b[1] * save_c[1]) / (save_c[3] * save_c[1] - save_c[2] * save_c[2]) + r_s[1]
+    r_s[2] = round(r, 4)
+    r_s[3] = round(s, 4)
+
+
+def error_analysis_for_rse():
+    """误差分析"""
+    r_s_error_analysis[0] = round((r_s[2] - r_s[0]) / r_s[2], 5)
+    r_s_error_analysis[1] = round((r_s[3] - r_s[1]) / r_s[3], 5)
+    r_s[0] = r_s[2]
+    r_s[1] = r_s[3]
 
 
 def result_b(r, s):
@@ -28,8 +42,48 @@ def result_c(r, s):
         num = num - 1
 
 
+# 题设题解的下标
+w = 0
+# 存放答案的下标
+j = 0
+# 标记迭代次数
+count = 0
+n_0 = [3, 1]
 def result_bairstow(r, s):
     """贝尔斯托法求解"""
+    global n, w, j, count
+    count = count + 1
+    result_b(r, s)
+    result_c(r, s)
+    error_analysis()
+    error_analysis_for_rse()
+    if (abs(r_s_error_analysis[0]) < 0.01) | (abs(r_s_error_analysis[1]) < 0.01):  # 误差满足条件
+        print('经过', count, '次迭代得')
+        save_x[j] = (r_s[2] + (r_s[2] ** 2 + 4 * r_s[3]) ** (1 / 2)) / 2  # 4
+        print('x', j, '=', save_x[j])
+        j = j + 1
+        save_x[j] = (r_s[2] - (r_s[2] ** 2 + 4 * r_s[3]) ** (1 / 2)) / 2  # 3
+        print('x', j, '=', save_x[j])
+        j = j + 1
+        n = n_0[w]  # n代表当前计算多项式项数
+        w = w + 1
+        if n == 1:
+            save_x[4] = round((-r_s[2]) / r_s[3], 0)  # 单项式求解
+            print('x', 4, '=', save_x[4])
+            print('多项式的根:', save_x)
+        elif (n == 2):
+            print('二次项求实根：此题目不需计算')
+        elif (n > 2):  # 传入修正的r,s值  商作为因式迭代
+            count = 0
+            save_coeff[0] = save_b[2]
+            save_coeff[1] = save_b[3]
+            save_coeff[2] = save_b[4]
+            save_coeff[3] = save_b[5]
+            save_coeff[4] = 0
+            save_coeff[5] = 0
+            result_bairstow(r_s[2], r_s[3])
+    else:  # 不满足近似条件
+        result_bairstow(r_s[2], r_s[3])  # 用修正的值继续迭代
 
 
 def display(output, flags):
