@@ -2,7 +2,6 @@
 # 因式分解的结果为：(x+1)(x-2)(x+3)(x-4)(x+5)
 import cmath as cm
 import sys
-
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -32,8 +31,8 @@ def quadratic_equation():
     else:
         # 复数仍然使用正常的正除
         shi, xu = cm.polar(cm.sqrt(fac))
-        xf_s =(-save_coeff[1]/2*save_coeff[0])+shi/2*save_coeff[0]
-        xf_x =xu/2*save_coeff[0]
+        xf_s =(-save_coeff[1]/(2*save_coeff[0]))+shi/(2*save_coeff[0])
+        xf_x =xu/(2*save_coeff[0])
         xf3 = cm.rect(xf_s,-xf_x)
         xf4 = cm.rect(xf_s,xf_x)
         display(xf3,'cev')
@@ -42,10 +41,14 @@ def quadratic_equation():
 
 def rs_analysis():
     """计算当前r,s存入r_s"""
-    # 指定为float型会导致栈溢出
+    # 指定为float型会在值较大时导致栈溢出
     # 每次修改r和s用于下次消减级数
-    r = (save_b[0] * save_c[3] - save_b[1] * save_c[2]) / (save_c[2] * save_c[2] - save_c[1] * save_c[3]) + r_s[0]
-    s = (save_b[0] * save_c[2] - save_b[1] * save_c[1]) / (save_c[3] * save_c[1] - save_c[2] * save_c[2]) + r_s[1]
+    rsz = (save_b[0] * save_c[3] - save_b[1] * save_c[2])
+    rsm = (save_c[2] * save_c[2] - save_c[1] * save_c[3])
+    r = rsz/ rsm + r_s[0]
+    rsz =(save_b[0] * save_c[2] - save_b[1] * save_c[1])
+    rsm =(save_c[3] * save_c[1] - save_c[2] * save_c[2])
+    s =rsz /rsm + r_s[1]
     r_s[2] = round(r, 4)
     r_s[3] = round(s, 4)
 
@@ -78,14 +81,15 @@ def result_c(r, s):
         num = num - 1
 
 
-# 题设题解的下标
+# 标记解的下标
 lessons = 0
 # 存放答案的下标
 root = 0
 # 标记迭代次数
 count = 0
 # 表示根的剩余数量
-# 例子用不到，但是二次方程的求法也要写
+# 例子用不到，但是二次方程的求法也要写.
+# 控制级次变化。
 n_less = [3, 1]
 
 
@@ -105,20 +109,20 @@ def result_bairstow(r, s, acc):
         save_x[root] = (r_s[2] - (r_s[2] ** 2 + 4 * r_s[3]) ** (1 / 2)) / 2  # 3
         display(root, 'ro')
         root = root + 1
-        n = n_less[lessons]  # n代表当前计算多项式项数
+        n = n_less[lessons]  # n当前计算多项式项数
         lessons = lessons + 1
         if n == 1:
-            save_x[4] = round((-r_s[0]) / r_s[2], 0)  # 单项式求解
+            save_x[4] = round((-r_s[0]) / r_s[2], 0)  # 单项式求解 #rs的初始取值对其影响较大。 
             display(4, 'ro')
             display(0, 'ar')
         elif (n == 2):
-            function_composition()
+             quadratic_equation()
         elif (n > 2):  # 传入修正的r,s值  商作为因式迭代
             count = 0
-            save_coeff[0] = save_b[2]
-            save_coeff[1] = save_b[3]
-            save_coeff[2] = save_b[4]
-            save_coeff[3] = save_b[5]
+            number = 0
+            while number < 4:
+                save_coeff[number] = save_b[number+2]
+                number = number+1
             save_coeff[4] = 0
             save_coeff[5] = 0
             result_bairstow(r_s[2], r_s[3], acc)
