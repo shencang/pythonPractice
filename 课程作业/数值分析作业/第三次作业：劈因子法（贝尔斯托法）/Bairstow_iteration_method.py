@@ -1,3 +1,4 @@
+# Bairstow_iteration_method:贝尔斯托迭代法
 # 要求根的函数 ：x^5+3*x^4-23*x^3-51*x^2+94*x+120
 # 因式分解的结果为：(x+1)(x-2)(x+3)(x-4)(x+5)
 import cmath as cm
