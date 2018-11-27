@@ -9,7 +9,7 @@ import numpy as np
 
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
-sys.setrecursionlimit(10000)
+sys.setrecursionlimit(1000000)
 
 
 # 要求根的函数 ：x^5+3*x^4-23*x^3-51*x^2+94*x+120
@@ -116,7 +116,10 @@ def result_bairstow(r, s, acc):
         n = n_less[lessons]  # n当前计算多项式项数
         lessons = lessons + 1
         if n == 1:
-            save_x[4] = round((-r_s[0]) / r_s[2], 0)  # 单项式求解 #rs的初始取值对其影响较大。
+            print(r_s)
+            print(r_s_error_analysis)
+            print(save_coeff, '= - =')
+            save_x[4] = round(-(r_s[2]) / (r_s[3]), 5)  # 单项式求解 #rs的初始取值对其影响较大。
             display(4, 'ro')
             display(0, 'ar')
         elif (n == 2):
