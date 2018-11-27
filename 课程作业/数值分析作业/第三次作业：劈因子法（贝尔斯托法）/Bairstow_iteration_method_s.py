@@ -48,6 +48,7 @@ def bairstow(a, r, s, num, acc):
         save_x.append(X1)
         save_x.append(X2)
         return None
+    # 计算bc
     n = len(a)
     b = [0] * len(a)
     c = [0] * len(a)
@@ -64,6 +65,7 @@ def bairstow(a, r, s, num, acc):
         c[i] = b[i] + r * c[i + 1] + s * c[i + 2]
         i = i - 1
     dins = ((c[2] * c[2]) - (c[3] * c[1])) ** (-1.0)
+    # 计算rs
     r = r + (dins) * ((c[2]) * (-b[1]) + (-c[3]) * (-b[0]))
     s = s + (dins) * ((-c[1]) * (-b[1]) + (c[2]) * (-b[0]))
     # 和预设精确度进行比较
