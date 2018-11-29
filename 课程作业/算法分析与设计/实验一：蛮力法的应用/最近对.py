@@ -23,15 +23,19 @@ def closest_points(n, lists_x, list_y, index1, index2):
 
 
 lists_x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1, 4, 5, 5, 3, 4, 3, 6, 9]
-lists_y = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 2, 6, 3, 0, 6, 1, 0, 0, 0, 9]
-print(closest_points(20, lists_x, lists_y, 0, 0))
+lists_y = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 2, 6, 3, 0, 11, 1, 0, 0, 0, 9]
+
+result = closest_points(20, lists_x, lists_y, 0, 0)
+print('最近对为：第', int(result[1]) + 1, '和第', int(result[2]) + 1, '号点。他们之间的距离为：', result[0])
 
 fig, ax = plt.subplots()
 x = np.linspace(0, 2 * np.pi, 200)
 y = np.sin(x)
 l = ax.plot(x, y)
 dot, = ax.plot([], [], 'ro')
-line, = ax.plot(x, y)
+
+
+# line, = ax.plot(x, y)
 
 
 def init():
