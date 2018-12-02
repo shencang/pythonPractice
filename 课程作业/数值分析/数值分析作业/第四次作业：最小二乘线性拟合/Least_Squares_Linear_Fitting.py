@@ -1,3 +1,5 @@
+import random as rand
+
 import matplotlib.pyplot as plots
 import numpy as np
 from numpy.linalg import *
@@ -7,35 +9,62 @@ plots.rcParams['axes.unicode_minus'] = False
 # 用来正常显示中文标签
 plots.rcParams['font.sans-serif'] = ['SimHei']
 
-# 例题5-1的给出条件
-lists_x = [0.0, 0.2, 0.4, 0.6, 0.8]
-lists_y = [0.9, 1.9, 2.8, 3.3, 4.2]
+lists_x = []
+lists_y = []
 
 
+def book_5_1():
+    """课本例题条件"""
+    global lists_x, lists_y
+    # 例题5-1的给出条件
+    lists_x = [0.0, 0.2, 0.4, 0.6, 0.8]
+    lists_y = [0.9, 1.9, 2.8, 3.3, 4.2]
+
+
+def random_fx():
+    """随机数模拟函数"""
+    global lists_x, lists_y
+    x = np.arange(-10, 10, 0.2)
+    s = 6
+    y = [8 * r + s for r in x]
+    num = 0
+    x_random = []
+    y_random = []
+    for x_r in x:
+        y_r = y[num]
+        random = float(rand.randint(30, 120)) / 100
+        num = num + 1
+        x_random.append(x_r * random)
+        y_random.append(y_r * random)
+    lists_x = x_random
+    lists_y = y_random
+
+
+# 例题5-1的求解
 def result():
     """例题5.1的求解"""
+    # x的二次累计结果
     resultxx = 0
+    # xy的相乘累计结果
     resultyx = 0
-    resultx = 0
-    resulty = 0
+    # x的累计结果
+    resultx = sum(lists_x)
+    # y的累计结果
+    resulty = sum(lists_y)
+    # 计数器
     num = 0
     for x in lists_x:
         resultyx = resultyx + x * lists_y[num]
+        resultxx = resultxx + x * x
         num = num + 1
 
-    for x in lists_x:
-        resultxx = resultxx + x * x
-
-    for x in lists_x:
-        resultx = resultx + x
-
-    for y in lists_y:
-        resulty = resulty + y
-
-    a = np.array([[num, resultx], [resultx, resultxx]])
-    b = np.array([[resulty], [resultyx]])
+    a = np.array([[num, resultx],
+                  [resultx, resultxx]])
+    b = np.array([[resulty],
+                  [resultyx]])
     r, s = solve(a, b)
     display('re', round(r[0], 3), s[0])
+    draw_ls(lists_x, lists_y, r, s, "例题5.1的求解")
 
 
 def display(flag, a, b):
@@ -43,5 +72,33 @@ def display(flag, a, b):
         print("拟合的直线为", 'y=', a, '+', b, 'x')
 
 
+def draw_ls(list_x, list_y, la, lb, tag):
+    """绘制函数和寻找过程的路径"""
+    plots.title(tag)
+    plots.xlabel("x")
+    plots.ylabel("y")
+    x = np.linspace(min(lists_x), max(lists_x), 99)
+    # 绘制函数的图像
+    y = la + lb * x
+    plots.plot(x, y, color='Orange', linewidth=1.0)
+    for v in range(len(list_x)):
+        plots.scatter(list_x[v], list_y[v], c='r')  # 每次迭代的点
+    plots.show()
+
+
+def input_estimation_and_conditions():
+    """输入初始估计"""
+    print('请选择数据:1为课本例题5.1的题设 2.为随机生成数目模拟y = 8*x+6')
+    result = int(input("请输入选择"))
+    return result
+
 if __name__ == '__main__':
+    choose = input_estimation_and_conditions()
+    if choose == 1:
+        book_5_1()
+    if choose == 2:
+        random_fx()
+    else:
+        print("输入错误。")
+        exit()
     result()
