@@ -7,6 +7,7 @@ plots.rcParams['axes.unicode_minus'] = False
 # 用来正常显示中文标签
 plots.rcParams['font.sans-serif'] = ['SimHei']
 
+# 例题5-1的给出条件
 lists_x = [0.0, 0.2, 0.4, 0.6, 0.8]
 lists_y = [0.9, 1.9, 2.8, 3.3, 4.2]
 
@@ -31,15 +32,16 @@ def result():
     for y in lists_y:
         resulty = resulty + y
 
-    print(resultx)
-    print(resultyx)
-    print(resultxx)
-    print(resulty)
-    print(num)
-
     a = np.array([[num, resultx], [resultx, resultxx]])
     b = np.array([[resulty], [resultyx]])
-    print(solve(a, b))
+    r, s = solve(a, b)
+    display('re', round(r[0], 3), s[0])
 
 
-result()
+def display(flag, a, b):
+    if flag == 'result' or flag == 're':
+        print("拟合的直线为", 'y=', a, '+', b, 'x')
+
+
+if __name__ == '__main__':
+    result()
