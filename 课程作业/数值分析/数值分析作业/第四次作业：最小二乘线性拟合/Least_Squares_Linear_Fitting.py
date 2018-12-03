@@ -43,13 +43,13 @@ def random_fx():
 # 例题5-1的求解
 def result():
     """例题5.1的求解"""
-    # x的二次累计结果
+    # Σx的二次累计结果
     resultxx = 0
-    # xy的相乘累计结果
+    # Σxy的相乘累计结果
     resultyx = 0
-    # x的累计结果
+    # Σx的结果
     resultx = sum(lists_x)
-    # y的累计结果
+    # Σy的结果
     resulty = sum(lists_y)
     # 计数器
     num = 0
@@ -60,15 +60,17 @@ def result():
         resultxx = resultxx + x * x
         num = num + 1
 
-    # 令偏导等于0，列出的系数矩阵 ： 由化简的方程组 na0+a1Σxi = Σyi  a0Σxi aΣxi^2 = Σxiyi 得到。
+    # 令偏导等于0，列出的系数矩阵 ： 由化简的方程组 n*a0+a1*Σxi = Σyi  a0Σxi a1*Σxi^2 = Σxi*yi 得到。
     a = np.array([[num, resultx],
                   [resultx, resultxx]])
-    
+    # 对应的 Σyi 和 Σxi*yi
     b = np.array([[resulty],
                   [resultyx]])
-    r, s = solve(a, b)
-    display('re', round(r[0], 3), s[0])
-    draw_ls(lists_x, lists_y, r, s, "例题5.1的求解")
+
+    # 获得运算结果，取得系数。使用的是不带权值的计算方式。
+    a0, a1 = solve(a, b)
+    display('re', round(a0[0], 3), a1[0])
+    draw_ls(lists_x, lists_y, a0, a1, "例题5.1的求解")
 
 
 def display(flag, a, b):
