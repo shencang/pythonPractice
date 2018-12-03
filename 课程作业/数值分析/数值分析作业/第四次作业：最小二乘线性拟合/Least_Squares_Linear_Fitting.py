@@ -54,12 +54,16 @@ def result():
     # 计数器
     num = 0
     for x in lists_x:
+        # 累计获得Σx*y
         resultyx = resultyx + x * lists_y[num]
+        # 累计获得Σx^2
         resultxx = resultxx + x * x
         num = num + 1
 
+    # 令偏导等于0，列出的系数矩阵 ： 由化简的方程组 na0+a1Σxi = Σyi  a0Σxi aΣxi^2 = Σxiyi 得到。
     a = np.array([[num, resultx],
                   [resultx, resultxx]])
+    
     b = np.array([[resulty],
                   [resultyx]])
     r, s = solve(a, b)
@@ -91,6 +95,7 @@ def input_estimation_and_conditions():
     print('请选择数据:1为课本例题5.1的题设 2.为随机生成数目模拟y = 8*x+6')
     result = int(input("请输入选择"))
     return result
+
 
 if __name__ == '__main__':
     choose = input_estimation_and_conditions()
