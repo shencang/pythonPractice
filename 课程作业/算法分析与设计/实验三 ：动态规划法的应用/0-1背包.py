@@ -73,6 +73,37 @@ def result():
     draw_ls(lists_x, lists_y, a0, a1, "例题5.1的求解")
 
 
+def knapsack(value, weght, capacity, n, choose):
+    for i in range(n + 1):
+        value[i][0] = 0
+    for j in range(capacity + 1):
+        value[0][j] = 0
+    for i in range(n):
+        for j in range(capacity + 1):
+            if (j < weght[i]):
+                value[i][j] = value[i - 1][j]
+            else:
+                value[i][j] = max(value[i - 1][j], (value[i - 1][j - weght[i]] + value[i]))
+    j = capacity
+    i = n - 1
+    while i >= 0:
+        if value[i][j] > value[i - 1][j]:
+            choose[i] = 1
+            j = j - weght[i]
+        else:
+            choose[i] = 0
+        i = i - 1
+
+    for i in range(n):
+        print(choose[i])
+
+    for i in range(n):
+        for j in range(capacity + 1):
+            print(value[i][j])
+
+    return value[n - 1][capacity]
+
+
 def display(flag, a, b):
     if flag == 'result' or flag == 're':
         print("拟合的直线为", 'y=', a, '+', b, 'x')
@@ -100,9 +131,13 @@ def input_estimation_and_conditions():
 
 
 if __name__ == '__main__':
-    choose = input_estimation_and_conditions()
-    if choose == 1:
-        book_5_1()
-    if choose == 2:
-        random_fx()
-    result()
+    weight = [2, 2, 6, 5, 4]
+    valves = [6, 3, 5, 4, 6]
+    valve = [([0] * 100) for i in range(100)]
+    for i in range(len(weight)):
+        valve[i][0] = valves[i]
+    choose = []
+    n = len(weight)
+    capacity = 10
+    sums = knapsack(valve, weight, capacity, n, choose)
+    print(sums)
