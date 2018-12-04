@@ -105,4 +105,7 @@ if __name__ == '__main__':
         book_5_1()
     if choose == 2:
         random_fx()
+    elif choose != 1 and choose != 2:
+        print("输入错误")
+        exit(1)
     result()
