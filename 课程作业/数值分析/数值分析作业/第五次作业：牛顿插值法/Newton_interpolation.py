@@ -27,6 +27,8 @@ def get_parameters(choose):
     else:
         print("输入有误。请重新输入")
         newton_interpolation()
+        # 可以直接计算n阶
+        # 但是没有数据，不保留键入入口。 保留程序入口
 
 
 def din_quotient():
