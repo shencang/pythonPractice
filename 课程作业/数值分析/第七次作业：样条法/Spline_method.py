@@ -75,15 +75,15 @@ def solutions(parametes, y):
     :param y: parametes是系数矩阵，y结果列
     :return: 二次插值系数
     """
-    sizeOfInterval = len(x) - 1
-    result = init(sizeOfInterval * 3 - 1)
+    num = len(x) - 1
+    result = init(num * 3 - 1)
     i = 1
-    while i < sizeOfInterval:
+    while i < num:
         result[(i - 1) * 2] = y[i]
         result[(i - 1) * 2 + 1] = y[i]
         i += 1
-    result[(sizeOfInterval - 1) * 2] = y[0]
-    result[(sizeOfInterval - 1) * 2 + 1] = y[-1]
+    result[(num - 1) * 2] = y[0]
+    result[(num - 1) * 2 + 1] = y[-1]
     a = np.array(secondary_spline_method(x))
     b = np.array(result)
     return np.linalg.solve(a, b)
@@ -142,12 +142,12 @@ def get_result(x, y, result):
     draw(x, y, data_x, data_y)
 
 
-def spline_method(x, y):
+def spline_method(xs, ys):
     """
     启动整个计算过程
     """
-    result = solutions(secondary_spline_method(x), y)
-    get_result(x, y, result)
+    result = solutions(secondary_spline_method(xs), ys)
+    get_result(xs, ys, result)
     student()
 
 
