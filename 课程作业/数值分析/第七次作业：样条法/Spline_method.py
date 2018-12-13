@@ -1,42 +1,13 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from pylab import mpl
 
 
-def get_parameters(choose):
-    """
-        选择课本的三组数据中的一组。
-        4.12 二次牛顿插值多项式，参数见下。求f（1.5）
-        4.13 三次牛顿插值多项式，参数见下。求f（0.5）
-        4.14 五次牛顿插值多项式，参数见下。求f（0.596）（求得是四阶可以取前五个节点，在这里取6个，效果类似，取最优）
-    """
-    global x, y, x_c
-    if choose == 1:
-        x_c = 1.5
-        x = [1, 3, 2]
-        y = [1, 2, -1]
-
-    elif choose == 2:
-        x_c = 0.5
-        x = [0, 1, 2, 4]
-        y = [3, 6, 11, 51]
-
-    elif choose == 3:
-        x = [0.4, 0.55, 0.65, 0.80, 0.90, 1.05]
-        y = [0.41075, 0.57815, 0.69675, 0.88811, 1.02652, 1.25382]
-        x_c = 0.596
-    else:
-        print("输入有误。请重新输入")
-        newton_interpolation()
-        # 可以直接计算n阶
-        # 但是没有数据，不保留键入入口。 保留程序入口
-
-
-def secondary_spline_method():
+def secondary_spline_method(x):
     """
     二次样条插值法
     :return:
     """
-    global x, y
     # num_height表示未知数和方程数量
     num_weight = 3 * (len(x) - 1)
     parameter = []
@@ -66,8 +37,7 @@ def secondary_spline_method():
     coefficient[((len(x) - 1) - 1) * 3 + 0] = x[-1] * x[-1]
     coefficient[((len(x) - 1) - 1) * 3 + 1] = x[-1]
     coefficient[((len(x) - 1) - 1) * 3 + 2] = 1
-    temp = coefficient[1:]
-    parameter.append(temp)
+    parameter.append(coefficient[1:])
     # 导数内点相等列出的方程。方程数量n-1
     # 人为规定a1=0  方程数量1
     i = 1
@@ -79,11 +49,17 @@ def secondary_spline_method():
         coefficient[i * 3 + 1] = -1
         temp = coefficient[1:]
         parameter.append(temp)
-        i += 1
+        i = i + 1
+        # 返回结果矩阵
     return parameter
 
 
 def init(size):
+    """
+    初始化数组
+    :param size:
+    :return:
+    """
     j = 0
     data = []
     while j < size:
@@ -92,49 +68,87 @@ def init(size):
     return data
 
 
-def cubic_spline_method():
-    """
-    三次样条插值法
-    :return:
+def solutions(parametes, y):
     """
 
-
-def draw(parameters, new_data):
-    """画通过差商计算出来的函数的图像
-       new_data是曲线拟合后的曲线
-       （二阶情况下比较失准····）
+    :param parametes: 计算函数系数
+    :param y: parametes是系数矩阵，y结果列
+    :return: 二次插值系数
     """
-    plt.scatter(x, y, label="离散数据", color="red")
-    plt.plot(x, new_data, label="牛顿插值拟合曲线", color="black")
-    # plt.scatter(x_c, functions(parameters, x_c, len(x) - 1), label="预测函数点", color="blue")
-    plt.title("牛顿插值法（newton interpolation）")
+    sizeOfInterval = len(x) - 1
+    result = init(sizeOfInterval * 3 - 1)
+    i = 1
+    while i < sizeOfInterval:
+        result[(i - 1) * 2] = y[i]
+        result[(i - 1) * 2 + 1] = y[i]
+        i += 1
+    result[(sizeOfInterval - 1) * 2] = y[0]
+    result[(sizeOfInterval - 1) * 2 + 1] = y[-1]
+    a = np.array(secondary_spline_method(x))
+    b = np.array(result)
+    return np.linalg.solve(a, b)
+
+
+def calculate(paremeters, x):
+    """
+
+    :param paremeters: 计算函数值
+    :param x: parameters为二次函数的系数，x为自变量
+    :return: 因变量
+    """
+    result = []
+    for data_x in x:
+        result.append(paremeters[0] * data_x * data_x + paremeters[1] * data_x + paremeters[2])
+    return result
+
+
+def draw(data_x, data_y, new_data_x, new_data_y):
+    """
+
+    :param data_x: 为离散的点x坐标
+    :param data_y: 为离散的点y坐标
+    :param new_data_x: 为由拉格朗日插值函数计算的值
+    :param new_data_y: 为由拉格朗日插值函数计算的值
+    :return: null
+    """
+    plt.plot(new_data_x, new_data_y, label="拟合曲线", color="black")
+    plt.scatter(data_x, data_y, label="离散数据", color="red")
     mpl.rcParams['font.sans-serif'] = ['SimHei']
     mpl.rcParams['axes.unicode_minus'] = False
+    plt.title("二次样条函数")
     plt.legend(loc="upper left")
     plt.show()
 
 
-def input_estimation_and_conditions():
-    """输入初始选择"""
-    print('请选择数据:1,为课本例题4-12的数据\n 2,为课本例题4-13的数据\n 3,为课本例题4-14的数据')
-    result = int(input("请输入选择"))
-    return result
+def get_result(x, y, result):
+    """
+    计算并绘制
+    :return:
+    """
+    data_x1 = np.arange(3, 4.5, 0.1)
+    data_y1 = calculate([0, result[0], result[1]], data_x1)
+    data_x2 = np.arange(4.5, 7, 0.1)
+    data_y2 = calculate([result[2], result[3], result[4]], data_x2)
+    data_x3 = np.arange(7, 9.5, 0.1)
+    data_y3 = calculate([result[5], result[6], result[7]], data_x3)
+    data_x = []
+    data_y = []
+    data_x.extend(data_x1)
+    data_x.extend(data_x2)
+    data_x.extend(data_x3)
+    data_y.extend(data_y1)
+    data_y.extend(data_y2)
+    data_y.extend(data_y3)
+    draw(x, y, data_x, data_y)
 
 
-def newton_interpolation():
+def spline_method(x, y):
     """
     启动整个计算过程
     """
-    # 获得x y 的取值和要计算的值
-    get_parameters(input_estimation_and_conditions())
-    # 计算差商
-    # 绘图
-    #    draw(parameters, predictive_value)
-    # 输出估计值
+    result = solutions(secondary_spline_method(x), y)
+    get_result(x, y, result)
     student()
-
-
-# print('计算得在x=', x_c, '时，函数值近似为：', functions(parameters, x_c, len(x) - 1))
 
 
 def student():
@@ -146,12 +160,6 @@ def student():
 
 
 if __name__ == '__main__':
-    x = [2, 4.5, 7, 9]
-    y = [2.5, 1, 2.5, 0.5]
-    quotient = []
-    x_c = 0
-    # newton_interpolation()
-    ss = secondary_spline_method()
-
-    for i in range(len(ss)):
-        print(ss[i])
+    x = [2, 4.5, 7, 8.5]
+    y = [2.5, 1, 2.5, 0.4]
+    spline_method(x, y)
