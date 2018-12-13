@@ -125,7 +125,7 @@ def get_result(x, y, result):
     计算并绘制
     :return:
     """
-    data_x1 = np.arange(3, 4.5, 0.1)
+    data_x1 = np.arange(2, 4.5, 0.1)
     data_y1 = calculate([0, result[0], result[1]], data_x1)
     data_x2 = np.arange(4.5, 7, 0.1)
     data_y2 = calculate([result[2], result[3], result[4]], data_x2)
