@@ -1,33 +1,85 @@
 import numpy as np
 
-# inp = [[6,   15,  55,  152.6],
-#       [15,  55, 225,  585.6],
-#       [55, 225, 979, 2488.8]]
-inp = [[6, 15, 55],
+# 求解的数据
+inpa = [[6, 15, 55],
        [15, 55, 225],
        [55, 225, 979]]
-bs = [152.6, 585.6, 2488.8]
-bs.insert(0, 0)
-b = np.array([bs])
-b = b.T
-b = b.astype('float')
-print(b)
-
-ins = np.array([[0, 0, 0]])
-d = [[0], [0], [0], [0]]
-# A = np.hstack((a,b))
-inp = np.r_[ins, inp]
-inp = np.hstack((d, inp))
-inp = inp.astype('float')
-print(inp)
+inpb = [152.6, 585.6, 2488.8]
 
 
-def fs(inp, b):
-    i = 0
+def swap(cha, chb):
+    """
+    交换两个数的值
+    :param cha: 系数矩阵
+    :param chb: 结果矩阵
+    :return:两个交换的值
+    """
+    return chb, cha
+
+
+def exchange_principal(a, b):
+    """
+    对ab进行交互主元
+    :param a: 系数矩阵
+    :param b: 结果矩阵
+    :return: 交换主元后的a和b
+    """
+    maxs = a[1][1]
+    j = 0
+    # 找出最大元素
+    for i in range(2, len(a)):
+        if abs(a[i][1]) > maxs:
+            maxs = abs(a[i][1])
+            j = i
+    # 交换主要元素后，其他元素相应变换
+    for n in range(1, len(a)):
+        a[1][n], a[j][n] = swap(a[1][n], a[j][n])
+    b[1][0], b[j][0] = swap(b[1][0], b[j][0])
+    return a, b
+
+
+def obtain_the_standard_of_ab(a, b):
+    """
+    对初始矩阵进行处理添加0行0列
+    :param a: 系数矩阵
+    :param b: 结果矩阵
+    :return: 修改后的系数和结果矩阵
+    """
+    add_h = []
+    add_w = []
+    # 在结果矩阵第一个位置插入一个0，代表新行
+    b.insert(0, 0)
+    bs = np.array([b])
+    # 转置
+    bs = bs.T
+    # 表中元素转换为浮点型
+    bs = bs.astype('float')
+    # 生成新的行和列，对应到矩阵的第0行0列
+    for nu in range(len(a)):
+        add_h.append(0)
+    for nu in range(len(a) + 1):
+        add_w.append([0])
+    # 插入操作
+    ins = np.array([add_h])
+    a = np.r_[ins, a]
+    a = np.hstack((add_w, a))
+    # 表中元素转换为浮点型
+    a = a.astype('float')
+    return a, bs
+
+
+def gauss_elimination_method(inp, b):
+    """
+    原始高斯消去法
+    :param inp: 系数矩阵
+    :param b: 结果矩阵
+    :return: 解集
+    """
+    # 判断是否需要交换主元
+    if inp[1][1] == 0:
+        a, b = exchange_principal(inp, b)
     n = len(inp) - 1
     x = []
-    sums = 0
-    k = 1
     # while k<(n):
     for k in range(1, n):
         # i= k+1
@@ -56,9 +108,22 @@ def fs(inp, b):
             j = j + 1
         x[i] = sums / inp[i][i]
         i = i - 1
-    print(inp)
-    print(b)
-    print(x)
+    return x
 
 
-fs(inp, b)
+def draw(a, b):
+    """
+    画图画图
+    :param a:
+    :param b:
+    :return:
+    """
+    # 不会画·····
+
+
+if __name__ == '__main__':
+    a, b = obtain_the_standard_of_ab(inpa, inpb)
+    x = gauss_elimination_method(a, b)
+    draw(a, b)
+    for i in range(1, len(x)):
+        print(x[i])
