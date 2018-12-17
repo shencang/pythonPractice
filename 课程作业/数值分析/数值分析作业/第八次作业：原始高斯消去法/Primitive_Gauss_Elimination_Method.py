@@ -26,9 +26,6 @@ def get_parameters(choose):
         return 0, 0
 
 
-# 求解的数据
-
-
 def input_estimation_and_conditions():
     """
     选择参数
