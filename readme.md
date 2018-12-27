@@ -57,7 +57,10 @@
             2.1.2.7.1 样条法
             
           2.1.2.8 第八次作业：原始高斯消去法
-            2.1.2.7.1 Primitive_Gauss_Elimination_Method 原始高斯消去法
+            2.1.2.8.1 Primitive_Gauss_Elimination_Method 原始高斯消去法
+            
+          2.1.2.9 第九次作业：LU分解法
+            2.1.2.9.1 LU_decomposition_method LU分解法
           
       2.2 算法设计与分析
         2.2.1 算法分析与设计课件

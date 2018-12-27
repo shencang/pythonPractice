@@ -88,35 +88,35 @@ def exchange_principal(a, b):
     return a, b
 
 
-def count_LU(inpa, l, u):
+def count_LU(a, l, u):
     """
-    计算L和U方阵
-    :param l: 系数矩阵
+    计算L和U方阵,优化于原始高斯消去，不同于原来的添加0行0列，直接计算
+    :param a: 系数矩阵
     :param l: 经过初始化的L方阵
     :param u: 经过初始化的U方阵
     :return: 填充完毕的L,U方阵
     """
-    n = len(inpa)
+    n = len(a)
     for i in range(n):
         # 计算L的第一列和U的第一行：U1i=A1i, Li1=Ai1 / U11
-        u[0][i] = inpa[0][i]
-        l[i][0] = inpa[i][0] / u[0][0]
+        u[0][i] = a[0][i]
+        l[i][0] = a[i][0] / u[0][0]
     # 计算U的第r行，L的第r列元素
     # uri=ari-Σ(k=1->r-1)Lrk_Uki
     # lir=air-Σ(k=1->r-1)Lik_Ukr
     for r in range(n):
         for i in range(r, n):
-            u[r][i] = inpa[r][i] - sum_Lrk_Uki(l, u, r, i)
+            u[r][i] = a[r][i] - sum_Lr_Ui(l, u, r, i)
             if i == r:
                 l[r][r] = 1
             elif r == n:
                 l[n][n] = 1
             else:
-                l[i][r] = (inpa[i][r] - sum_Lik_Ukr(l, u, r, i)) / u[r][r]
+                l[i][r] = (a[i][r] - sum_Li_Ur(l, u, r, i)) / u[r][r]
     return l, u
 
 
-def sum_Lrk_Uki(l, u, r, i):
+def sum_Lr_Ui(l, u, r, i):
     """
     求和:Lrk*Uki
     :param l:计算中的L矩阵
@@ -131,7 +131,7 @@ def sum_Lrk_Uki(l, u, r, i):
     return result
 
 
-def sum_Lik_Ukr(l, u, r, i):
+def sum_Li_Ur(l, u, r, i):
     """
     求和:Lrk*Uki
     :param l:计算中的L矩阵
@@ -171,13 +171,33 @@ def result_of_d_x(l, u, b):
 
 
 def get_new_LU(inpas):
-    l = []
-    u = []
+    """
+    初始化L和U阵。
+    :param inpas:系数矩阵
+    :return: 初始化的L和U阵
+    """
+    l_n = []
+    u_n = []
+    # 确定初始化的宽度
     for i in range(len(inpas)):
-        l.append([0, 0, 0]) // xiugai
+        temp = []
+        # 确定初始化的行数
+        for j in range(len(inpas)):
+            # 为这一列添加0值。不用append()避免复制错误
+            temp.insert(-1, 0)
+        # 注入每一行。在这里原来没有重复两个循环，直接temp给l和u赋值，导致构成地址引用而不是值覆盖，导致错误
+        l_n.insert(-1, temp)
+    # 重复上述操作
+    for i in range(len(inpas)):
+        temp = []
+        for j in range(len(inpas)):
+            temp.insert(-1, 0)
+        u_n.insert(-1, temp)
+
+    return l_n, u_n
 
 
-def draw(a, b):
+def draw(lr, ur):
     """
     画图画图
     :param a:
@@ -185,6 +205,8 @@ def draw(a, b):
     :return:
     """
     # 不会画·····
+    # image = Image.fromarray(lr)
+    # img = imread(image)
 
 
 def student():
@@ -202,7 +224,7 @@ def result(x):
     :return:
     """
     print("解集为：")
-    for i in range(1, len(x)):
+    for i in range(len(x)):
         print('x', i, '=', x[i])
 
 
@@ -217,15 +239,18 @@ def begin():
     if inp_a == inp_b and inp_a == 0:
         exit(0)
 
-    # # 格式化ab
-    # a, b = obtain_the_standard_of_ab(inp_a, inp_b)
-    # # 高斯消元
-    # x = gauss_elimination_method(a, b)
+    # 初始化L和U阵
+    l_n, u_n = get_new_LU(inp_a)
+    # 拆分L和U阵
+    l_r, u_r = count_LU(inp_a, l_n, u_n)
+    # 根据L和U计算D，从而计算X
+    xr = result_of_d_x(l_r, u_r, inp_b)
     # 画图
-    draw(a, b)
+    draw(l_r, u_r)
     # 学号输出
     student()
-    result(x)
+    # 结果输出
+    result(xr)
 
 
 if __name__ == '__main__':
