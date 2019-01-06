@@ -18,10 +18,10 @@ def estimated_results(x):
 
 def input_estimation_and_conditions():
     print("步进输入-1或者0退出系统")
-    x_begin = int(input("==============================\n请输入起始点"))
-    x_end = int(input("==============================\n请输入终点"))
-    h = int(input("==============================\n请输入步进"))
-    return max(x_begin, x_end), min(x_begin, x_end), h
+    x_begin = float(input("==============================\n请输入起始点"))
+    x_end = float(input("==============================\n请输入终点"))
+    h = float(input("==============================\n请输入步进"))
+    return min(x_begin, x_end), max(x_begin, x_end), h
 
 
 def swap(cha, chb):
@@ -36,12 +36,14 @@ def swap(cha, chb):
 
 def euler_method(x_begin, x_end, h):
     x_length = abs(x_begin - x_end)
-    print(h)
+    print(x_begin, x_end, h)
     result = []
     result.append(exact_solution(x_begin))
-    for i in range(x_begin, x_end, 1):
-        print(i)
-    # result.append(result[-1]+exact_solution(i))
+    i = x_begin
+    while i <= x_end:
+        result.append(result[-1] + estimated_results(i) * h)
+        i = i + h
+    print(result)
 
 
 def draw(lr, ur):
