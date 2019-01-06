@@ -60,9 +60,9 @@ def exact_value(x_h_add):
     return result_n
 
 
-def xien_method(x_begin, x_end, h):
+def euler_method(x_begin, x_end, h):
     """
-    修恩法计算对应的估计点：yi+1=yi+Φh，Φ=（f‘xi+f‘xi+1）/2
+    欧拉法计算对应的估计点：yi+1=yi+Φh，Φ=（f‘xi+f‘xi+1）/2
     :param x_begin:起始点
     :param x_end:结束点
     :param h:步长
@@ -90,13 +90,13 @@ def xien_method(x_begin, x_end, h):
 
 def draw(results, result_n, x_h_add):
     """
-    修恩绘图步骤
+    欧拉绘图步骤
     :param results: 估计函数值集合
     :param result_n: 精确函数值集合
     :param x_h_add: x的取值集合
     :return: 无
     """
-    plt.title("修恩法")
+    plt.title("欧拉法")
     # 确定x轴的范围，建议不要太大
     x = np.linspace(min(x_h_add), max(x_h_add))
     # 绘制原始函数曲线
@@ -148,7 +148,7 @@ def begin():
     if h == 0:
         exit(0)
     # 欧拉法计算各个点的估计值
-    results, x_h_add = xien_method(x_begin, x_end, h)
+    results, x_h_add = euler_method(x_begin, x_end, h)
     # 计算对应的精确函数值
     result_n = exact_value(x_h_add)
     # 画图
