@@ -53,7 +53,6 @@ def exact_value(x_h_add):
     """
     # 精确点结果集
     result_n = []
-    i = x_h_add[0]
     # 直到长度到达末尾
     for i in x_h_add:
         # 记录当前x的精确解
