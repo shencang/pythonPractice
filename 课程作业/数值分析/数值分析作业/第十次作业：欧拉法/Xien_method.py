@@ -2,6 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+# 修恩法修改自我的欧拉法。我将欧拉法的无关步骤和欧拉法计算分离，使其独立不随方法修改而变动，故在修恩法中，我只修改对应的部分。
+# 所以在欧拉法和修恩法中，除去必要步骤外大部分代码来自欧拉法。
+
 def exact_solution(x):
     """
     求函数的精确值
