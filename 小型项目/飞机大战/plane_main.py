@@ -4,7 +4,7 @@ from 小型项目.飞机大战.plane_sprites import *
 
 pygame.mixer.init()
 
-pygame.mixer.music.load("/home/liutingting/下载/Mark Petrie - Kara Kul.mp3")
+pygame.mixer.music.load("D:\\work_data\\py\\小型项目\\飞机大战\\music.mp3")
 # 播放
 pygame.mixer.music.play(loops=-1)
 
