@@ -70,6 +70,7 @@ import json
 import sys
 
 
+# 重新排序过程
 def solution(line):
     json_line = json.loads(line)
 
@@ -84,27 +85,49 @@ def solution(line):
 
         result.insert(pos, stu)
 
-    return str(result).replace(" ", "")
+    return result
 
-def  data(lines):
 
-    res=[range(lines[0])]
-    count= 1
-    while count==len(lines)-1:
-        res =res+[lines[count],lines[count+1]]
-    print(res)
+# return str(result).replace(" ", "")
 
+def data(lines):
+    '''
+    对数据进行处理的部分
+    :param lines: 原始数据行
+    :return:res_num:处理好的结果集
+    '''
+    # 数据的分解
+    res = list(map(int, line.split()))
+    resu = []
+    res_num = ''
+    temp = ''
+    # print(res)
+    # res=[range(lines[0])]
+    # 数据的格式化读入
+    count = 1
+    while count <= len(res) - 1:
+        resu.append([res[count], res[count + 1]])
+        count += 2
+    # print(str(resu))
+    # 对数据进行排序
+    result = (solution(str(resu)))
+    # print(result)
+    # 对输出数据进行规范化
+    for i in result:
+        temp = str(i)
+        if i == result[-1]:
+            res_num += temp[1] + ' ' + temp[4]
+        else:
+            res_num += temp[1] + ' ' + temp[4] + ' '
+    # print(res_num)
+    return res_num
 
 
 # line = "[[3,0],[7,0],[4,4],[7,1],[5,2],[6,1],[5,0]]"
 if __name__ == '__main__':
     for line in sys.stdin:
-        lines = line.strip(' ')
-        print(lines)
-        data(lines)
+        lines = line.strip()
+        print(data(lines))
+
         # result = solution(line)
         # print(result)
-
-
-
-

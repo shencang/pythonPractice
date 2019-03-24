@@ -69,6 +69,7 @@
 import sys
 import sys
 
+
 def solution(line):
     number_array = list(map(int, line.split()))
     child_num = number_array.pop(0)
@@ -92,9 +93,7 @@ def solution(line):
     res = [str(i) for k in res for i in k]
     return " ".join(res)
 
+
 for line in sys.stdin:
     line = line.strip()
     print(solution(line))
-
-
-
