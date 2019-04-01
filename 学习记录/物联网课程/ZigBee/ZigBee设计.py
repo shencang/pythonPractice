@@ -29,7 +29,7 @@ while True:  # 无限循环读取数据
     print(data)
     td = int(data[4:6])
     hd = int(data[6:8])
-    ld = float(data[8:len(data)-6])
+    ld = float(data[8:len(data) - 6])
     print(local_time, did, td, hd, ld)  # 打印结果在控制台
 
     sql = "INSERT INTO Monitor_Data(LOG_ID,D_ID,TIME,T_DATA,H_DATA,L_DATA)VALUES('%d','%s','%s','%d','%d','%f')" % (
