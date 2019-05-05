@@ -26,15 +26,16 @@ def solution(line):
     if line.count('+') > 0:
 
         a, b = line.split('+')
+        #      print(a," ",b)
 
         result = 0
 
         a_r = a[::-1]
 
         b_r = b[::-1]
-
+        #      print(a_r," ",b_r)
         sum_digit = min(len(a_r), len(b_r))
-
+        #     print(sum_digit)
         level = 1
 
         for i in range(sum_digit):
@@ -89,5 +90,5 @@ def solution(line):
 
 if __name__ == '__main__':
     for line in sys.stdin:
-        lines = line.strip()
-        print(solution(line))
+        lines = line.split('\n')
+        print(solution(lines[0]))

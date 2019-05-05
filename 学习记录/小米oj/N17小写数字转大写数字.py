@@ -27,6 +27,10 @@
 
 # coding:utf-8
 
+#encoding=utf8
+
+# coding:utf-8
+
 def solution(line):
 
     line = line.encode("utf8")
@@ -156,6 +160,9 @@ def piece_trans(piece, leader):
     return result
 
 
+
+
+
 def char_trans(char):
 
     '''
@@ -182,10 +189,12 @@ def char_trans(char):
 
     if char == 9: return '玖'
 
-    else:print(char + '转化出现问题啦：')
+    else:print(char , '转化出现问题啦：')
 
 
-if __name__ == '__main__':
-    line = '8900000000'
-    result = solution(line)
-    print(result)
+
+line = '8900000000'
+
+result = solution(line)
+
+print(result)
